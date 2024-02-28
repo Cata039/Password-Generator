@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
+    <title>Password Generator</title>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Password Generator</h1>
+
+        <div class="options-box">
+            <h4 id="text">Chose what you want your password to contain</h2>
+
+                <div class="particular_option1">
+                    <label for="length">Password Length (max 30) : <input type="number" id="length" value="12" min="6" max="30"></label>
+                </div>
+
+                <div class="particular_option2" onclick="toggleCheckbox('uppercase')">
+                    <input type="checkbox" id="uppercase" checked="checked" value="uppercase">
+                    <span class="checkmark"></span>
+                    <label for="uppercase">Include Uppercase</label>
+                </div>
+
+                <div class="particular_option3"onclick="toggleCheckbox('lowercase')">
+                    <input type="checkbox" id="lowercase" checked="checked" value="lowercase">
+                    <span class="checkmark"></span>
+                    <label for="lowercase">Include Lowercase</label>
+                </div>
+
+                <div class="particular_option4" onclick="toggleCheckbox('numbers')">
+                    <input type="checkbox" id="numbers" checked="checked" value="numbers">
+                    <span class="checkmark"></span>
+                    <label for="numbers">Include Numbers</label>
+                </div>
+
+                <div class="particular_option5" onclick="toggleCheckbox('symbols')">
+                    <input type="checkbox" id="symbols" checked="checked" value="symbols">
+                    <span class="checkmark"></span>
+                    <label for="symbols">Include Symbols</label>
+                </div>
+        </div>
+
+        
+
+        <div class="generate-button">
+            <button onclick="generatePassword()">Generate</button>
+        </div>
+
+        <script>
+            function toggleCheckbox(id) {
+                var checkbox = document.getElementById(id);
+                checkbox.checked = !checkbox.checked;
+            }
+        </script>
+
+        <input type="text" id="passwordOutput" readonly>
+        
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function toggleCheckbox(id) {
+                var checkbox = document.getElementById(id);
+                checkbox.checked = !checkbox.checked;
+            }
+            function generatePassword() {
+                var length = document.getElementById("length").value;
+                var uppercase_letters = document.getElementById("uppercase").checked;
+                var lowercase_letters = document.getElementById("lowercase").checked;
+                var numbers = document.getElementById("numbers").checked;
+                var symbols = document.getElementById("symbols").checked;
+                var all = "";
+                
+                if (uppercase_letters) all += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                if (lowercase_letters) all += "abcdefghijklmnopqrstuvwxyz";
+                if (numbers) all += "0123456789";
+                if (symbols) all += "!@#$%^&*()_+";
+
+                var password = "";
+                for (var i = 0; i < length; i++) {
+                    var charIndex = Math.floor(Math.random() * all.length);
+                    password += all[charIndex];
+                }
+                document.getElementById("passwordOutput").value = password;
+            }
+    /*function generatePassword() {
+            var formData = {
+                'length': $('#length').val(),
+                'includeUppercase': $('#uppercase').prop('checked'),
+                'includeLowercase': $('#lowercase').prop('checked'),
+                'includeNumbers': $('#numbers').prop('checked'),
+                'includeSymbols': $('#symbols').prop('checked')
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/generate_password',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    $('#passwordOutput').val(response.password);
+                }
+            });
+        }*/
+    </script>
+
+</body>
+</html>
